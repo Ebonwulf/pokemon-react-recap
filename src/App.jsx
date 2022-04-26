@@ -6,10 +6,20 @@ import pokemonArray from './data/pokemon';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [fuzzySearch, setFuzzySearch] = useState(false);
   const filteredPokemon = pokemonArray.filter((pokemon) => {
     //use toLowerCase to prevent errors if uppercase is used
-    return pokemon.name.toLowerCase().startsWith(searchTerm);
+    //use .startsWith for a search starting with input entered
+    //use .includes for a search with input entered that includes it anywhere in the name
+    if (fuzzySearch) {
+      return pokemon.name.toLowerCase().includes(searchTerm);
+    } else {
+      return pokemon.name.toLowerCase().startsWith(searchTerm);
+    }
   });
+  const fuzzySearchHandler = () => {
+    setFuzzySearch(!fuzzySearch);
+  };
 
   console.log(filteredPokemon);
   console.log('filteredPokemon');
